@@ -1,0 +1,28 @@
+.admin-dashboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: Hidden;
+}
+.admin-dashboard-wrapper .topside {
+  padding: 1%;
+  padding-bottom: 0;
+  display: flex;
+  height: 20%;
+  gap: 1%;
+}
+.topsideBox {
+  width: 19%;
+  display: flex;
+  flex-direction: Column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #fff;
+  border-radius: 6px;
+}
+.bottom-side {
+  display: flex;
+  gap: 1rem;
+  padding: 1%;
+}

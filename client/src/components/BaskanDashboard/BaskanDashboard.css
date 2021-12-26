@@ -1,0 +1,31 @@
+.filter {
+  padding: 0 2rem;
+  display: flex;
+  gap: 2rem;
+}
+.filter-option {
+  padding: 0.2rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.atanmis-filter {
+  background-color: rgb(55, 55, 55);
+  color: rgb(255, 255, 66);
+}
+.atanmamis-filter {
+  background-color: rgb(55, 55, 55);
+  color: rgb(255, 66, 66);
+}
+.kapanmis-filter {
+  background-color: rgb(55, 55, 55);
+  color: rgb(66, 255, 66);
+}
+.filter-option:hover {
+  text-decoration: underline;
+}
+.talepler-wrapper {
+  display: flex;
+  padding: 1rem 2rem 0 2rem;
+  gap: 2rem;
+  flex: flex-wrap;
+}

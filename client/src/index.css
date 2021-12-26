@@ -1,0 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+button {
+  padding: 0.5rem 1.5rem;
+}
+
+.btn {
+  border: 1px solid #790a00;
+  background-color: #790a00;
+  color: white;
+  outline: none;
+  cursor: pointer;
+  transition: 0.2s ease-in;
+}
+
+.btn:hover {
+  color: #790a00;
+  background-color: white;
+}

@@ -1,0 +1,112 @@
+import { useEffect, useState } from "react";
+
+import { useDbContext } from "../../hooks/useDbContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
+
+import "./TalepAc.css";
+
+export default function TalepAc() {
+  const [talepError, setTalepError] = useState("");
+  const [talepAcildi, setTalepAcildi] = useState(false);
+
+  const { user } = useAuthContext();
+  const { baskanliklar } = useDbContext();
+
+  const [talepTanim, setTalepTanim] = useState("");
+  const [selectedBaskanlik, setSelectedBaskanlik] = useState(0);
+
+  useEffect(() => {
+    if (baskanliklar.length > 1) {
+      setSelectedBaskanlik(baskanliklar[0].baskanlik_id);
+    }
+  }, [baskanliklar]);
+
+  const onTalepSubmit = async (e) => {
+    e.preventDefault();
+    setTalepError("");
+    if (!talepTanim) {
+      setTalepError("Lütfen talep bölgesini doldurunuz");
+      return;
+    }
+
+    const talepValues = {
+      talepkarId: user.kullanici_id,
+      tanim: talepTanim,
+      baskanlik_id: selectedBaskanlik,
+    };
+
+    const token = localStorage.token;
+
+    try {
+      await fetch("http://localhost:5000/talep", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          token,
+        },
+        body: JSON.stringify(talepValues),
+      });
+    } catch (err) {
+      console.log("buradan yazıldı");
+    }
+    setTalepTanim("");
+    setTalepError("");
+  };
+
+  return (
+    <div className="login-wrapper">
+      {talepAcildi ? (
+        <div>talep açıldı</div>
+      ) : (
+        <div className="talep-form">
+          <h2>Talep Aç</h2>
+          <form onSubmit={onTalepSubmit}>
+            <label className="ust-baskanlik-label">
+              Başkanlık
+              <select
+                value={selectedBaskanlik}
+                onChange={(e) => setSelectedBaskanlik(Number(e.target.value))}
+              >
+                {baskanliklar &&
+                  baskanliklar.map((baskanlik) => (
+                    <option
+                      key={baskanlik.baskanlik_id}
+                      value={baskanlik.baskanlik_id}
+                    >
+                      {baskanlik.adi}
+                    </option>
+                  ))}
+              </select>
+            </label>
+            <label>
+              Talebiniz
+              <textarea
+                value={talepTanim}
+                onChange={(e) => setTalepTanim(e.target.value)}
+                type="text"
+                rows="10"
+              ></textarea>
+            </label>
+
+            <button className="btn" type="submit">
+              Talep Aç
+            </button>
+            {talepError && (
+              <p
+                style={{
+                  borderRadius: "6px",
+                  backgroundColor: "red",
+                  color: "white",
+                  padding: ".2rem 1rem",
+                  marginTop: "1rem",
+                }}
+              >
+                {talepError}
+              </p>
+            )}
+          </form>
+        </div>
+      )}
+    </div>
+  );
+}

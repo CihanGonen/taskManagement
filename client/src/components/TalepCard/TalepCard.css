@@ -1,0 +1,34 @@
+.talep-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 300px;
+  box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #fff;
+  background-color: White;
+  padding: 0.2rem 0.4rem 1rem 0.4rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+.tarih {
+  align-self: flex-end;
+  font-size: 13px;
+}
+.talep-durumlar {
+  text-align: center;
+}
+.talep-durum {
+  display: inline-block;
+  width: min-content;
+  padding: 0.2rem 1rem;
+  border-radius: 6px;
+}
+.atanmisBaskan {
+  background-color: rgb(255, 255, 66);
+}
+.atanmamisBaskan {
+  background-color: rgb(255, 66, 66);
+}
+.bitmisBaskan {
+  background-color: rgb(66, 255, 66);
+}

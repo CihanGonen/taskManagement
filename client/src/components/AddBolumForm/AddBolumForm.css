@@ -1,0 +1,38 @@
+.bolum-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  width: 50%;
+  border-radius: 6px;
+  box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #fff;
+}
+.bolum-form form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+}
+.bolum-form label {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.bolum-form select {
+  width: 100%;
+  height: 25px;
+}
+.bolum-form input {
+  width: 100%;
+  height: 25px;
+}
+.ust-baskanlik-label {
+  margin-top: 1rem;
+}
+.baskanlik-btn {
+  margin-top: 1rem;
+  align-self: flex-end;
+}
