@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { useDbContext } from "../../hooks/useDbContext";
+import { useBaskanliklarContext } from "../../hooks/useBaskanliklarContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 import "./TalepAc.css";
@@ -10,7 +10,7 @@ export default function TalepAc() {
   const [talepAcildi, setTalepAcildi] = useState(false);
 
   const { user } = useAuthContext();
-  const { baskanliklar } = useDbContext();
+  const { baskanliklar } = useBaskanliklarContext();
 
   const [talepTanim, setTalepTanim] = useState("");
   const [selectedBaskanlik, setSelectedBaskanlik] = useState(0);
@@ -28,7 +28,10 @@ export default function TalepAc() {
       setTalepError("Lütfen talep bölgesini doldurunuz");
       return;
     }
-
+    if (talepTanim.length > 800) {
+      setTalepError("Lütfen 800 karakterden kısa bir talep giriniz.");
+      return;
+    }
     const talepValues = {
       talepkarId: user.kullanici_id,
       tanim: talepTanim,
@@ -46,6 +49,7 @@ export default function TalepAc() {
         },
         body: JSON.stringify(talepValues),
       });
+      setTalepAcildi(true);
     } catch (err) {
       console.log("buradan yazıldı");
     }
@@ -53,60 +57,57 @@ export default function TalepAc() {
     setTalepError("");
   };
 
+  useEffect(() => {
+    if (talepAcildi) {
+      const timer = setTimeout(() => setTalepAcildi(false), 5000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [talepAcildi]);
+
   return (
     <div className="login-wrapper">
-      {talepAcildi ? (
-        <div>talep açıldı</div>
-      ) : (
-        <div className="talep-form">
-          <h2>Talep Aç</h2>
-          <form onSubmit={onTalepSubmit}>
-            <label className="ust-baskanlik-label">
-              Başkanlık
-              <select
-                value={selectedBaskanlik}
-                onChange={(e) => setSelectedBaskanlik(Number(e.target.value))}
-              >
-                {baskanliklar &&
-                  baskanliklar.map((baskanlik) => (
-                    <option
-                      key={baskanlik.baskanlik_id}
-                      value={baskanlik.baskanlik_id}
-                    >
-                      {baskanlik.adi}
-                    </option>
-                  ))}
-              </select>
-            </label>
-            <label>
-              Talebiniz
-              <textarea
-                value={talepTanim}
-                onChange={(e) => setTalepTanim(e.target.value)}
-                type="text"
-                rows="10"
-              ></textarea>
-            </label>
+      <div className="talep-form">
+        <h2>Create a Ticket</h2>
+        <form onSubmit={onTalepSubmit}>
+          <label className="ust-baskanlik-label">
+            Department
+            <select
+              value={selectedBaskanlik}
+              onChange={(e) => setSelectedBaskanlik(Number(e.target.value))}
+            >
+              {baskanliklar &&
+                baskanliklar.map((baskanlik) => (
+                  <option
+                    key={baskanlik.baskanlik_id}
+                    value={baskanlik.baskanlik_id}
+                  >
+                    {baskanlik.adi}
+                  </option>
+                ))}
+            </select>
+          </label>
+          <label>
+            Ticket Message
+            <textarea
+              value={talepTanim}
+              onChange={(e) => setTalepTanim(e.target.value)}
+              type="text"
+              rows="10"
+            ></textarea>
+          </label>
 
-            <button className="btn" type="submit">
-              Talep Aç
-            </button>
-            {talepError && (
-              <p
-                style={{
-                  borderRadius: "6px",
-                  backgroundColor: "red",
-                  color: "white",
-                  padding: ".2rem 1rem",
-                  marginTop: "1rem",
-                }}
-              >
-                {talepError}
-              </p>
-            )}
-          </form>
-        </div>
-      )}
+          <button className="btn" type="submit">
+            Create
+          </button>
+          {talepError && <p className="hata">{talepError}</p>}
+          {talepAcildi && (
+            <div className="bildirim">Talep başarıyla açıldı.</div>
+          )}
+        </form>
+      </div>
+      )
     </div>
   );
 }

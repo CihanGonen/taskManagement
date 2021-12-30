@@ -59,10 +59,10 @@ export default function Login() {
 
   return (
     <form className="login-form" onSubmit={onLoginSubmit}>
-      <h2>Giriş Yap</h2>
+      <h2>Log in</h2>
 
       <label>
-        <span>email:</span>
+        <span>Email</span>
         <input
           type="email"
           onChange={(e) => setEmail(e.target.value)}
@@ -71,7 +71,7 @@ export default function Login() {
       </label>
 
       <label>
-        <span>şifre:</span>
+        <span>Password</span>
         <input
           type="password"
           onChange={(e) => setPassword(e.target.value)}
@@ -79,21 +79,9 @@ export default function Login() {
         />
       </label>
       <button className="btn" type="submit">
-        Giriş Yap
+        Log in
       </button>
-      {loginError && (
-        <p
-          style={{
-            borderRadius: "6px",
-            backgroundColor: "red",
-            color: "white",
-            padding: ".2rem 1rem",
-            marginTop: "1rem",
-          }}
-        >
-          {loginError}
-        </p>
-      )}
+      {loginError && <p className="hata">{loginError}</p>}
     </form>
   );
 }

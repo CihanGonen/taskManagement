@@ -16,9 +16,13 @@
   background-color: rgb(55, 55, 55);
   color: rgb(255, 66, 66);
 }
-.kapanmis-filter {
+.bitmis-filter {
   background-color: rgb(55, 55, 55);
   color: rgb(66, 255, 66);
+}
+.hepsi-filter {
+  background-color: rgb(55, 55, 55);
+  color: rgb(255, 255, 255);
 }
 .filter-option:hover {
   text-decoration: underline;
@@ -27,5 +31,5 @@
   display: flex;
   padding: 1rem 2rem 0 2rem;
   gap: 2rem;
-  flex: flex-wrap;
+  flex-wrap: wrap;
 }

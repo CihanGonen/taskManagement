@@ -9,9 +9,10 @@ import Login from "./pages/Login/Login";
 import Navbar from "./components/Navbar/Navbar";
 import Signup from "./pages/Signup/Signup";
 import TalepAc from "./pages/TalepAc/TalepAc";
+import TalepDetay from "./pages/TalepDetay/TalepDetay";
 
 function App() {
-  const { user, dispatch } = useAuthContext();
+  const { user, authIsReady, dispatch } = useAuthContext();
 
   const checkAuthenticated = async () => {
     const token = localStorage.token;
@@ -24,12 +25,15 @@ function App() {
 
         const parseRes = await res.json();
         if (parseRes) {
-          dispatch({ type: "LOGIN", payload: parseRes.user });
+          dispatch({ type: "AUTH_IS_READY", payload: parseRes.user });
+        } else {
+          dispatch({ type: "AUTH_IS_READY", payload: null });
         }
       } catch (err) {
         console.log(err.message);
       }
     } else {
+      dispatch({ type: "AUTH_IS_READY", payload: null });
     }
   };
 
@@ -39,9 +43,9 @@ function App() {
 
   return (
     <div className="app">
-      <BrowserRouter>
-        <Navbar />
-        <div className="main">
+      {authIsReady && (
+        <BrowserRouter>
+          <Navbar />
           <Routes>
             <Route path="/" element={user ? <Dashboard /> : <Login />} />
             <Route path="/login" element={!user ? <Login /> : <Dashboard />} />
@@ -50,9 +54,13 @@ function App() {
               element={!user ? <Signup /> : <Dashboard />}
             />
             <Route path="/talepac" element={user ? <TalepAc /> : <Login />} />
+            <Route
+              path="/talep/:id"
+              element={user ? <TalepDetay /> : <Login />}
+            />
           </Routes>
-        </div>
-      </BrowserRouter>
+        </BrowserRouter>
+      )}
     </div>
   );
 }

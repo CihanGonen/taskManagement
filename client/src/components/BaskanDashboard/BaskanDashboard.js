@@ -1,25 +1,27 @@
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useTaleplerContext } from "../../hooks/useTaleplerContext";
 
-import TalepCard from "../TalepCard/TalepCard";
+import TalepCardBaskan from "../TalepCardBaskan/TalepCardBaskan";
 
 import "./BaskanDashboard.css";
 export default function BaskanDashboard() {
   const { user } = useAuthContext();
-  const [talepler, setTalepler] = useState([]);
+  const { talepler, talepPending, fetchTalepler } = useTaleplerContext();
+  const [filter, setFilter] = useState("");
 
-  const fetchTalepler = async () => {
-    try {
-      let res = await fetch("http://localhost:5000/talep", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const resTalep = await res.json();
-      setTalepler(resTalep);
-    } catch (err) {
-      console.log(err.message);
+  const filterTalepler = (talepler) => {
+    talepler = talepler
+      .filter((talep) => talep.atayan_id === user.kullanici_id)
+      .filter((talep) => talep.durum_id !== 4);
+    if (filter === "atanmamis") {
+      return talepler.filter((talep) => talep.durum_id === 1);
+    } else if (filter === "atanmis") {
+      return talepler.filter((talep) => talep.durum_id === 2);
+    } else if (filter === "bitmis") {
+      return talepler.filter((talep) => talep.durum_id === 3);
+    } else {
+      return talepler;
     }
   };
 
@@ -29,20 +31,42 @@ export default function BaskanDashboard() {
 
   return (
     <div>
-      {/* atanmamış,atanmış,bitmiş talepler */}
-      <h5 style={{ textAlign: "center" }}>BAŞKAN DASHBOARD</h5>
       <div className="filter">
-        <p className="atanmis-filter filter-option">Atanmış</p>
-        <p className="atanmamis-filter filter-option">Atanmamış</p>
-        <p className="kapanmis-filter filter-option">Kapanmış</p>
+        <p onClick={() => setFilter("")} className="hepsi-filter filter-option">
+          All
+        </p>
+        <p
+          onClick={() => setFilter("atanmamis")}
+          className="atanmamis-filter filter-option"
+        >
+          Unassigned
+        </p>
+        <p
+          onClick={() => setFilter("atanmis")}
+          className="atanmis-filter filter-option"
+        >
+          Assigned
+        </p>
+        <p
+          onClick={() => setFilter("bitmis")}
+          className="bitmis-filter filter-option"
+        >
+          Finished
+        </p>
       </div>
       <div className="talepler-wrapper">
-        {talepler.length > 1 ? (
-          talepler.map((talep) => (
-            <TalepCard key={talep.talep_id} talep={talep} />
-          ))
+        {talepPending ? (
+          "loading..."
+        ) : filterTalepler(talepler).length > 0 ? (
+          filterTalepler(talepler)
+            .sort((a, b) => {
+              return new Date(b.acilma_zamani) - new Date(a.acilma_zamani);
+            })
+            .map((talep) => (
+              <TalepCardBaskan key={talep.talep_id} talep={talep} />
+            ))
         ) : (
-          <p>hiç talep yok</p>
+          <p>no {filter} ticket</p>
         )}
       </div>
     </div>

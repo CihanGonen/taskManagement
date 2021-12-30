@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { useDbContext } from "../../hooks/useDbContext";
+import { useBaskanliklarContext } from "../../hooks/useBaskanliklarContext";
 
 import "./AddKullaniciForm.css";
 
@@ -13,7 +13,7 @@ export default function AddKullaniciForm() {
   const [userYetki, setUserYetki] = useState(1);
   const [userBaskanlik, setUserBaskanlik] = useState("");
 
-  const { baskanliklar } = useDbContext();
+  const { baskanliklar } = useBaskanliklarContext();
 
   const fetchYetkiler = async () => {
     try {

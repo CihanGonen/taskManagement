@@ -90,8 +90,6 @@ module.exports.login_post = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // check if person doesnt exists
-
     const person = await pool.query(
       "SELECT * FROM kullanicilar WHERE email = $1",
       [email]
@@ -101,12 +99,11 @@ module.exports.login_post = async (req, res) => {
       return res.status(401).json("Email veya Şifre Yanlış");
     }
 
-    // check if incoming password is the same
-
     const validPassword = await bcrypt.compare(
       password,
       person.rows[0].password
     );
+
     if (!validPassword) {
       return res.status(401).json("Email veya Şifre Yanlış");
     }

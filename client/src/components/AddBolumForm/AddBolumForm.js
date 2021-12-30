@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-import { useDbContext } from "../../hooks/useDbContext";
+import { useBaskanliklarContext } from "../../hooks/useBaskanliklarContext";
+import { useBaskanlarContext } from "../../hooks/useBaskanlarContext";
 
 import "./AddBolumForm.css";
 
@@ -8,7 +9,11 @@ export default function AddBolumForm() {
   const [baskanlik, setBaskanlik] = useState("");
   const [ustBaskanlik, setUstBaskanlik] = useState("");
 
-  const { baskanliklar, fetchBaskanliklar, setBaskanliklar } = useDbContext();
+  const { baskanliklar, fetchBaskanliklar, setBaskanliklar } =
+    useBaskanliklarContext();
+
+  const { baskanlarBaskanlikIdler } = useBaskanlarContext();
+  console.log(baskanlarBaskanlikIdler, baskanliklar);
 
   const onBaskanlikFormSubmit = async (e) => {
     e.preventDefault();
@@ -37,6 +42,18 @@ export default function AddBolumForm() {
   return (
     <div className="bolum-form">
       <h2>Başkanlık Ekle</h2>
+      {baskanliklar && baskanlarBaskanlikIdler
+        ? baskanliklar
+            .filter(
+              (baskanlik) =>
+                !baskanlarBaskanlikIdler.includes(baskanlik.baskanlik_id)
+            )
+            .map((baskanlik) => (
+              <p className="hata" key={baskanlik.baskanlik_id}>
+                {baskanlik.adi} için başkan ekle
+              </p>
+            ))
+        : null}
       <form onSubmit={onBaskanlikFormSubmit}>
         <label className="baskanlik-label">
           Başkanlık

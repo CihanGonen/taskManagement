@@ -1,8 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 
-export const DbContext = createContext();
+export const BaskanliklarContext = createContext();
 
-export const DbContextProvider = (props) => {
+export const BaskanliklarContextProvider = (props) => {
   const [baskanliklar, setBaskanliklar] = useState([]);
 
   const fetchBaskanliklar = async () => {
@@ -25,10 +25,10 @@ export const DbContextProvider = (props) => {
   }, []);
 
   return (
-    <DbContext.Provider
+    <BaskanliklarContext.Provider
       value={{ baskanliklar, setBaskanliklar, fetchBaskanliklar }}
     >
       {props.children}
-    </DbContext.Provider>
+    </BaskanliklarContext.Provider>
   );
 };

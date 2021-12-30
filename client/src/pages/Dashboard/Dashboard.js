@@ -1,3 +1,5 @@
+import "./Dashboard.css";
+
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 import AdminDashboard from "../../components/AdminDashboard/AdminDashboard";
@@ -10,7 +12,7 @@ export default function Dashboard() {
   return (
     <>
       {user ? (
-        <div>
+        <div className="dashboard-wrapper">
           {user.yetki_id === 1 ? (
             <AdminDashboard />
           ) : user.yetki_id === 2 ? (

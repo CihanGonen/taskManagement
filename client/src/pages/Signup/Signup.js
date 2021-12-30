@@ -47,6 +47,7 @@ export default function Login() {
             dispatch({ type: "LOGIN", payload: userInfos.user });
             navigate("/");
           } else {
+            console.log(userInfos);
             setSignupError(userInfos);
           }
         });
@@ -61,10 +62,10 @@ export default function Login() {
   return (
     <div className="login-wrapper">
       <div className="login-form">
-        <h2>Kayıt Ol</h2>
+        <h2>Sign up</h2>
         <form onSubmit={onLoginSubmit}>
           <label>
-            Kullanıcı Adı
+            Username
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -80,27 +81,18 @@ export default function Login() {
             />
           </label>
           <label>
-            Şifre
+            Password
             <input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               type="password"
             />
           </label>
-          {signupError && (
-            <p
-              style={{
-                borderRadius: "6px",
-                backgroundColor: "red",
-                color: "white",
-              }}
-            >
-              {signupError}
-            </p>
-          )}
+
           <button className="btn" type="submit">
-            Kayıt Ol
+            Sign up
           </button>
+          {signupError && <p className="hata">{signupError}</p>}
         </form>
       </div>
     </div>

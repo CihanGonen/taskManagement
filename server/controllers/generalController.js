@@ -79,6 +79,7 @@ module.exports.talep_post = async (req, res) => {
     );
     res.status(201).json(newTalep.rows[0]);
   } catch (err) {
+    console.log(err.message);
     res.status(400).json(err.message);
   }
 };
@@ -119,7 +120,7 @@ module.exports.talep_getOne = async (req, res) => {
 
 module.exports.talep_ataPut = async (req, res) => {
   const { talepId } = req.params;
-  const { atananMail } = req.body;
+  const { atanan_id } = req.body;
   try {
     // talep var mı kontrolü
     const talepVarMi = await pool.query(
@@ -127,18 +128,58 @@ module.exports.talep_ataPut = async (req, res) => {
       [talepId]
     );
 
-    //atanacak kullanıcının idsi alınır
-    const atanan_id = await pool.query(
-      "SELECT kullanici_id FROM kullanicilar where email=$1 ",
-      [atananMail]
-    );
+    if (talepVarMi.rows.length > 0) {
+      const talep = await pool.query(
+        "UPDATE talepler SET atanan_id=$1,atanma_zamani=CURRENT_TIMESTAMP, durum_id=2 WHERE talep_id=$2 RETURNING *",
+        [atanan_id, talepId]
+      );
+      return res.status(200).json(talep.rows[0]);
+    }
+    {
+      return res.status(400).json("bu talep bulunmamaktadır");
+    }
+  } catch (err) {
+    return res.status(400).json(err.message);
+  }
+};
 
-    const atananId = atanan_id.rows[0].kullanici_id;
+module.exports.talep_bitirPut = async (req, res) => {
+  const { talepId } = req.params;
+  try {
+    // talep var mı kontrolü
+    const talepVarMi = await pool.query(
+      "SELECT * FROM talepler where talep_id=$1",
+      [talepId]
+    );
 
     if (talepVarMi.rows.length > 0) {
       const talep = await pool.query(
-        "UPDATE talepler SET atanan_id=$1 WHERE talep_id=$2 RETURNING *",
-        [atananId, talepId]
+        "UPDATE talepler SET durum_id=3 WHERE talep_id=$1 RETURNING *",
+        [talepId]
+      );
+      return res.status(200).json(talep.rows[0]);
+    }
+    {
+      return res.status(400).json("bu talep bulunmamaktadır");
+    }
+  } catch (err) {
+    return res.status(400).json(err.message);
+  }
+};
+
+module.exports.talep_kapatPut = async (req, res) => {
+  const { talepId } = req.params;
+  try {
+    // talep var mı kontrolü
+    const talepVarMi = await pool.query(
+      "SELECT * FROM talepler where talep_id=$1",
+      [talepId]
+    );
+
+    if (talepVarMi.rows.length > 0) {
+      const talep = await pool.query(
+        "UPDATE talepler SET durum_id=4 WHERE talep_id=$1 RETURNING *",
+        [talepId]
       );
       return res.status(200).json(talep.rows[0]);
     }
@@ -151,16 +192,15 @@ module.exports.talep_ataPut = async (req, res) => {
 };
 
 module.exports.yorum_post = async (req, res) => {
-  const kullanici_id = req.user;
-
-  const { icerik, talep_id } = req.body;
+  const { icerik, talep_id, kullanici_id } = req.body;
   try {
-    const newTalep = await pool.query(
+    const newYorum = await pool.query(
       "INSERT INTO yorumlar (icerik,talep_id,kullanici_id) VALUES ($1,$2,$3) RETURNING *",
       [icerik, talep_id, kullanici_id]
     );
-    res.status(201).json(newTalep.rows);
+    res.status(201).json(newYorum.rows);
   } catch (err) {
+    console.log(err.message);
     res.status(401).json(err.message);
   }
 };
@@ -173,6 +213,50 @@ module.exports.yorum_get = async (req, res) => {
       [talepId]
     );
     res.status(200).json(yorumlar.rows);
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+};
+
+module.exports.personel_post = async (req, res) => {
+  try {
+    const { baskanlik_id } = req.body;
+
+    const personeller = await pool.query(
+      "SELECT * FROM kullanicilar WHERE baskanlik_id=$1 AND yetki_id=3",
+      [baskanlik_id]
+    );
+
+    res.status(200).json(personeller.rows);
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+};
+
+module.exports.baskanlar_get = async (req, res) => {
+  try {
+    const baskanlar = await pool.query(
+      "SELECT baskanlik_id FROM kullanicilar WHERE yetki_id=2"
+    );
+
+    const baskanlarBaskanlikIdler = baskanlar.rows.map(
+      (baskan) => baskan.baskanlik_id
+    );
+
+    res.status(200).json(baskanlarBaskanlikIdler);
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+};
+
+module.exports.kullanici_get = async (req, res) => {
+  try {
+    const { kullaniciId } = req.params;
+    const kullanici = await pool.query(
+      "SELECT name,email FROM kullanicilar WHERE kullanici_id = $1",
+      [kullaniciId]
+    );
+    res.status(200).json(kullanici.rows[0]);
   } catch (err) {
     res.status(400).json(err.message);
   }
