@@ -20,13 +20,12 @@ export default function ZiyaretciDashboard() {
     );
     if (filter === "beklemede") {
       return talepler.filter(
-        (talep) =>
-          talep.durum_id === 2 || talep.durum_id === 1 || talep.durum_id === 3
+        (talep) => talep.durum_id === 2 || talep.durum_id === 1
       );
     } else if (filter === "sonuclanan") {
-      return talepler.filter((talep) => talep.durum_id === 4);
+      return talepler.filter((talep) => talep.durum_id === 3);
     } else {
-      return talepler.filter((talep) => talep.durum_id !== 4);
+      return talepler.filter((talep) => talep.durum_id !== 3);
     }
   };
 
@@ -34,19 +33,19 @@ export default function ZiyaretciDashboard() {
     <div>
       <div className="filter">
         <p onClick={() => setFilter("")} className="hepsi-filter filter-option">
-          All
+          Hepsi
         </p>
         <p
           onClick={() => setFilter("beklemede")}
           className="atanmis-filter filter-option"
         >
-          Pending
+          Beklemede
         </p>
         <p
           onClick={() => setFilter("sonuclanan")}
           className="bitmis-filter filter-option"
         >
-          Closed
+          Sonuçlanan
         </p>
       </div>
       <div className="talepler-wrapper">
@@ -57,7 +56,7 @@ export default function ZiyaretciDashboard() {
             <TalepCardZiyaretci key={talep.talep_id} talep={talep} />
           ))
         ) : (
-          <p>no {filter} ticket</p>
+          <p>hiç {filter} talep yok</p>
         )}
       </div>
     </div>

@@ -62,10 +62,10 @@ export default function Login() {
   return (
     <div className="login-wrapper">
       <div className="login-form">
-        <h2>Sign up</h2>
+        <h2>Kayıt ol</h2>
         <form onSubmit={onLoginSubmit}>
           <label>
-            Username
+            Kullanıcı adı
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -81,7 +81,7 @@ export default function Login() {
             />
           </label>
           <label>
-            Password
+            Şifre
             <input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -90,7 +90,7 @@ export default function Login() {
           </label>
 
           <button className="btn" type="submit">
-            Sign up
+            Kayıt ol
           </button>
           {signupError && <p className="hata">{signupError}</p>}
         </form>

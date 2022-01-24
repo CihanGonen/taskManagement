@@ -59,7 +59,7 @@ export default function Login() {
 
   return (
     <form className="login-form" onSubmit={onLoginSubmit}>
-      <h2>Log in</h2>
+      <h2>Giriş yap</h2>
 
       <label>
         <span>Email</span>
@@ -71,7 +71,7 @@ export default function Login() {
       </label>
 
       <label>
-        <span>Password</span>
+        <span>Şifre</span>
         <input
           type="password"
           onChange={(e) => setPassword(e.target.value)}
@@ -79,7 +79,7 @@ export default function Login() {
         />
       </label>
       <button className="btn" type="submit">
-        Log in
+        Giriş yap
       </button>
       {loginError && <p className="hata">{loginError}</p>}
     </form>

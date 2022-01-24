@@ -13,20 +13,24 @@ export default function TalepCardZiyaretci({ talep }) {
     <Link to={`/talep/${talep.talep_id}`}>
       <div className="talep-card">
         <div className="tarih">
-          <p>Opened; {getFormattedTarih(talep.acilma_zamani)}</p>
+          <p>Açıldı; {getFormattedTarih(talep.acilma_zamani)}</p>
         </div>
         <p>
           {talep.tanim.length > 80
             ? talep.tanim.substring(0, 80) + "..."
             : talep.tanim}
         </p>
+        {talep.aciklama && (
+          <p style={{ fontSize: "13px" }}>
+            <span style={{ color: "red" }}>Sistem Açıklaması; </span>
+            {talep.aciklama}
+          </p>
+        )}
         <div className="talep-durumlar">
-          {talep.durum_id === 1 ||
-          talep.durum_id === 2 ||
-          talep.durum_id === 3 ? (
-            <p className="talep-durum atanmisBaskan">Pending</p>
+          {talep.durum_id === 1 || talep.durum_id === 2 ? (
+            <p className="talep-durum atanmisBaskan">Beklemede</p>
           ) : talep.durum_id === 3 ? (
-            <p className="talep-durum bitmisBaskan">Closed</p>
+            <p className="talep-durum bitmisBaskan">Kapandı</p>
           ) : null}
         </div>
       </div>

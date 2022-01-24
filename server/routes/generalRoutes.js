@@ -12,7 +12,7 @@ router.get("/talep", generalController.talep_getAll);
 router.get("/talep/:talepId", authorization, generalController.talep_getOne);
 router.put("/talep/:talepId", generalController.talep_ataPut);
 router.put("/talep/bitir/:talepId", generalController.talep_bitirPut);
-router.put("/talep/kapat/:talepId", generalController.talep_kapatPut);
+router.put("/talep/aciklama/:talepId", generalController.talep_aciklamaPut);
 
 router.post("/yorum", generalController.yorum_post);
 router.get("/yorum/:talepId", generalController.yorum_get);

@@ -13,13 +13,11 @@ export default function BaskanDashboard() {
   const filterTalepler = (talepler) => {
     talepler = talepler
       .filter((talep) => talep.atayan_id === user.kullanici_id)
-      .filter((talep) => talep.durum_id !== 4);
+      .filter((talep) => talep.durum_id !== 3);
     if (filter === "atanmamis") {
       return talepler.filter((talep) => talep.durum_id === 1);
     } else if (filter === "atanmis") {
       return talepler.filter((talep) => talep.durum_id === 2);
-    } else if (filter === "bitmis") {
-      return talepler.filter((talep) => talep.durum_id === 3);
     } else {
       return talepler;
     }
@@ -33,25 +31,19 @@ export default function BaskanDashboard() {
     <div>
       <div className="filter">
         <p onClick={() => setFilter("")} className="hepsi-filter filter-option">
-          All
+          Hepsi
         </p>
         <p
           onClick={() => setFilter("atanmamis")}
           className="atanmamis-filter filter-option"
         >
-          Unassigned
+          Atanmamış
         </p>
         <p
           onClick={() => setFilter("atanmis")}
           className="atanmis-filter filter-option"
         >
-          Assigned
-        </p>
-        <p
-          onClick={() => setFilter("bitmis")}
-          className="bitmis-filter filter-option"
-        >
-          Finished
+          Atanmış
         </p>
       </div>
       <div className="talepler-wrapper">
@@ -66,7 +58,7 @@ export default function BaskanDashboard() {
               <TalepCardBaskan key={talep.talep_id} talep={talep} />
             ))
         ) : (
-          <p>no {filter} ticket</p>
+          <p>hiç {filter} talep yok</p>
         )}
       </div>
     </div>

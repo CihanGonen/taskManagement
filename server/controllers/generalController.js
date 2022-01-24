@@ -167,8 +167,9 @@ module.exports.talep_bitirPut = async (req, res) => {
   }
 };
 
-module.exports.talep_kapatPut = async (req, res) => {
+module.exports.talep_aciklamaPut = async (req, res) => {
   const { talepId } = req.params;
+  const { aciklama } = req.body;
   try {
     // talep var mı kontrolü
     const talepVarMi = await pool.query(
@@ -178,8 +179,8 @@ module.exports.talep_kapatPut = async (req, res) => {
 
     if (talepVarMi.rows.length > 0) {
       const talep = await pool.query(
-        "UPDATE talepler SET durum_id=4 WHERE talep_id=$1 RETURNING *",
-        [talepId]
+        "UPDATE talepler SET aciklama=$2 WHERE talep_id=$1 RETURNING *",
+        [talepId, aciklama]
       );
       return res.status(200).json(talep.rows[0]);
     }

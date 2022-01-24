@@ -27,19 +27,19 @@ export default function PersonelDashboard() {
     <div>
       <div className="filter">
         <p onClick={() => setFilter("")} className="hepsi-filter filter-option">
-          All
+          Hepsi
         </p>
         <p
           onClick={() => setFilter("atanmis")}
           className="atanmis-filter filter-option"
         >
-          Assigned
+          Atanmış
         </p>
         <p
           onClick={() => setFilter("bitmis")}
           className="bitmis-filter filter-option"
         >
-          Finished
+          Bitmiş
         </p>
       </div>
       <div className="talepler-wrapper">
@@ -50,7 +50,7 @@ export default function PersonelDashboard() {
             <TalepCardPersonel key={talep.talep_id} talep={talep} />
           ))
         ) : (
-          <p>no {filter} ticket</p>
+          <p>hiç {filter} talep yok</p>
         )}
       </div>
     </div>

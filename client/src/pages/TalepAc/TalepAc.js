@@ -69,10 +69,10 @@ export default function TalepAc() {
   return (
     <div className="login-wrapper">
       <div className="talep-form">
-        <h2>Create a Ticket</h2>
+        <h2>Talep Oluştur</h2>
         <form onSubmit={onTalepSubmit}>
           <label className="ust-baskanlik-label">
-            Department
+            Başkanlık
             <select
               value={selectedBaskanlik}
               onChange={(e) => setSelectedBaskanlik(Number(e.target.value))}
@@ -89,7 +89,7 @@ export default function TalepAc() {
             </select>
           </label>
           <label>
-            Ticket Message
+            Talep tanımı
             <textarea
               value={talepTanim}
               onChange={(e) => setTalepTanim(e.target.value)}
@@ -99,7 +99,7 @@ export default function TalepAc() {
           </label>
 
           <button className="btn" type="submit">
-            Create
+            Oluştur
           </button>
           {talepError && <p className="hata">{talepError}</p>}
           {talepAcildi && (

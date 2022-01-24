@@ -65,7 +65,7 @@ export default function Yorumlar({ user, talep_id }) {
     <div>
       <form onSubmit={onYorumSubmit} className="yeni-yorum">
         <label>
-          Add a Comment
+          Yorum
           <textarea
             value={yorum}
             onChange={(e) => setYorum(e.target.value)}
@@ -75,7 +75,7 @@ export default function Yorumlar({ user, talep_id }) {
         </label>
         {yorumError && <p className="hata">{yorumError}</p>}
         <button type="submit" className="btn">
-          Add
+          Yorum ekle
         </button>
       </form>
       <div className="yorumlar">
@@ -91,7 +91,7 @@ export default function Yorumlar({ user, talep_id }) {
             ))
         ) : (
           <p style={{ fontSize: "14px", textAlign: "center" }}>
-            Add a comment...
+            İlk yorum ekleyen sen ol
           </p>
         )}
       </div>

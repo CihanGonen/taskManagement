@@ -13,7 +13,7 @@ export default function TalepCardPersonel({ talep }) {
     <Link to={`/talep/${talep.talep_id}`}>
       <div className="talep-card">
         <div className="tarih">
-          <p>Assigned; {getFormattedTarih(talep.atanma_zamani)}</p>
+          <p>Atanmış; {getFormattedTarih(talep.atanma_zamani)}</p>
         </div>
         <p>
           {talep.tanim.length > 80
@@ -22,9 +22,9 @@ export default function TalepCardPersonel({ talep }) {
         </p>
         <div className="talep-durumlar">
           {talep.durum_id === 2 ? (
-            <p className="talep-durum atanmisBaskan">Assigned</p>
+            <p className="talep-durum atanmisBaskan">Atanmış</p>
           ) : talep.durum_id === 3 ? (
-            <p className="talep-durum bitmisBaskan">Finished</p>
+            <p className="talep-durum bitmisBaskan">Bitmiş</p>
           ) : null}
         </div>
       </div>

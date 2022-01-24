@@ -97,8 +97,25 @@ export default function TalepDetay() {
     setPersonelError("");
   };
 
-  const onTalepBitirClick = async (e) => {
+  const talepAciklamaEkle = async (aciklama) => {
+    const aciklamaValues = { aciklama };
+
+    try {
+      await fetch(`http://localhost:5000/talep/aciklama/${talep.talep_id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(aciklamaValues),
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const onTalepBitirClick = async (e, aciklama) => {
     e.preventDefault();
+    talepAciklamaEkle(aciklama);
     try {
       await fetch(`http://localhost:5000/talep/bitir/${talep.talep_id}`, {
         method: "PUT",
@@ -113,23 +130,6 @@ export default function TalepDetay() {
     setShowBitirPopUp(false);
   };
 
-  const onTalepKapatClick = async (e) => {
-    e.preventDefault();
-    try {
-      await fetch(`http://localhost:5000/talep/kapat/${talep.talep_id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      fetchTalepler();
-    } catch (err) {
-      console.log(err.message);
-    }
-    setShowKapatPopUp(false);
-    navigate("/");
-  };
-
   return (
     <div>
       {showBitirPopUp && (
@@ -141,7 +141,7 @@ export default function TalepDetay() {
       {showKapatPopUp && (
         <PopUp
           ClosePopUp={setShowKapatPopUp}
-          onButtonClick={onTalepKapatClick}
+          onButtonClick={onTalepBitirClick}
         />
       )}
 
@@ -154,9 +154,9 @@ export default function TalepDetay() {
           <div className="talep-detay-card">
             <div className="talep-top-side">
               <div className="talep-times">
-                <p>Opened at; {getFormattedTarih(talep.acilma_zamani)}</p>
+                <p>Açılma zamanı; {getFormattedTarih(talep.acilma_zamani)}</p>
                 {talep.atanan_id && (
-                  <p>Assigned at; {getFormattedTarih(talep.atanma_zamani)}</p>
+                  <p>Atanma zamanı; {getFormattedTarih(talep.atanma_zamani)}</p>
                 )}
               </div>
               <div>
@@ -165,7 +165,7 @@ export default function TalepDetay() {
                     onClick={() => setShowKapatPopUp(true)}
                     className="btn btn-talep-kapat"
                   >
-                    Close this ticket
+                    Talebi kapat
                   </button>
                 )}
               </div>
@@ -180,28 +180,26 @@ export default function TalepDetay() {
                       onClick={() => setShowBitirPopUp(true)}
                       className="btn bitir-btn"
                     >
-                      Finish this ticket
+                      Talebi bitir
                     </button>
                   )}
                 </div>
                 <div className="talep-kisiler">
-                  <p>created by {talepkar && talepkar}</p>
-                  {talep.durum_id !== 1 && (
-                    <p>assigned to {atanan && atanan}</p>
-                  )}
+                  <p>{talepkar && talepkar} tarafından oluşturuldu</p>
+                  {talep.durum_id !== 1 && <p>{atanan && atanan}'a atandı</p>}
                 </div>
               </div>
               {talep.durum_id === 1 && (
                 <form onSubmit={talepAta} className="personel-form">
                   <label>
-                    <h4>Select Employee to Assign</h4>
+                    <h4>Atanacak personeli seç</h4>
                     <select
                       value={selectedPersonel}
                       onChange={(e) =>
                         setSelectedPersonel(Number(e.target.value))
                       }
                     >
-                      <option value="">select an employee</option>
+                      <option value="">bir personel seç</option>
                       {personeller &&
                         personeller.map((personel) => (
                           <option
@@ -214,13 +212,13 @@ export default function TalepDetay() {
                     </select>
                   </label>
                   <button type="submit" className="btn">
-                    Assign
+                    Ata
                   </button>
                   {personelError && <p className="hata">{personelError}</p>}
                 </form>
               )}
               {talepAtandi && (
-                <div className="bildirim">Ticket successfully assigned.</div>
+                <div className="bildirim">Talep başarıyla atandı.</div>
               )}
             </div>
           </div>

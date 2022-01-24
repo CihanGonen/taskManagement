@@ -13,9 +13,9 @@ export default function TalepCardBaskan({ talep }) {
     <Link to={`/talep/${talep.talep_id}`}>
       <div className="talep-card">
         <div className="tarih">
-          <p>Opened; {getFormattedTarih(talep.acilma_zamani)}</p>
+          <p>Açıldı; {getFormattedTarih(talep.acilma_zamani)}</p>
           {talep.atanma_zamani && (
-            <p>Assigned; {getFormattedTarih(talep.atanma_zamani)}</p>
+            <p>Atandı; {getFormattedTarih(talep.atanma_zamani)}</p>
           )}
         </div>
         <p>
@@ -25,11 +25,11 @@ export default function TalepCardBaskan({ talep }) {
         </p>
         <div className="talep-durumlar">
           {talep.durum_id === 1 ? (
-            <p className="talep-durum atanmamisBaskan">Unassigned</p>
+            <p className="talep-durum atanmamisBaskan">Atanmamış</p>
           ) : talep.durum_id === 2 ? (
-            <p className="talep-durum atanmisBaskan">Assigned</p>
+            <p className="talep-durum atanmisBaskan">Atanmış</p>
           ) : talep.durum_id === 3 ? (
-            <p className="talep-durum bitmisBaskan">Finished</p>
+            <p className="talep-durum bitmisBaskan">Bitmiş</p>
           ) : null}
         </div>
       </div>

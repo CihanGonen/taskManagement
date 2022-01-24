@@ -23,28 +23,28 @@ export default function Navbar() {
     <div className="navbar">
       {user ? (
         <div className="navbar-inner">
-          <div className="greetings">Welcome {user.name}</div>
+          <div className="greetings">Hoşgeldin {user.name}</div>
           <div>
             <Link to="/">
-              <h5>go to DASHBOARD</h5>
+              <h5>ANA SAYFA'ya git</h5>
             </Link>
           </div>
           <div className="btn-wrapper">
             <Link to="/talepac">
-              <button className="btn">Create Ticket</button>
+              <button className="btn">Talep Oluştur</button>
             </Link>
             <button className="btn" onClick={logout}>
-              Log out
+              Çıkış yap
             </button>
           </div>
         </div>
       ) : (
         <div className="btn-wrapper">
           <Link to="/login">
-            <button className="btn">Log in</button>
+            <button className="btn">Giriş yap</button>
           </Link>
           <Link to="/signup">
-            <button className="btn">Sign up</button>
+            <button className="btn">Kayıt ol</button>
           </Link>
         </div>
       )}
